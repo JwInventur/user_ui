@@ -97,8 +97,8 @@ class AutoUpdater:
             print("Update installiert.")
             # Infofenster für User anzeigen
             messagebox.showinfo(
-                "Update installiert",
-                "Das Update wurde erfolgreich installiert!\nBitte starte das Programm neu."
+                "Update gefunden",
+                "Es wurde ein Update gefunden und erfolgreich installiert!\nBitte starte das Programm neu."
             )
             if root:
                 root.destroy()
