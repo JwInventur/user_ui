@@ -61,7 +61,10 @@ class AutoUpdater:
             time.sleep(2)
             if root:
                 root.destroy()
+            # Hole absoluten Pfad
             script_path = os.path.abspath(__file__)
+            script_dir = os.path.dirname(script_path)
+            os.chdir(script_dir)  # Arbeitsverzeichnis auf Scriptordner setzen!
             os.execv(sys.executable, [sys.executable, script_path] + sys.argv[1:])
         except Exception as ex:
             print("Update-Fehler:", ex)
