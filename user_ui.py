@@ -75,7 +75,7 @@ class AutoUpdater:
             root.destroy()
         sys.exit(1)
 
-APP_VERSION = "0.0.2"
+APP_VERSION = "0.0.3"
 UPDATE_URL = "https://raw.githubusercontent.com/JwInventur/user_ui/refs/heads/main/user_ui.py"
 VERSION_URL = "https://raw.githubusercontent.com/JwInventur/user_ui/refs/heads/main/version.txt"
 
