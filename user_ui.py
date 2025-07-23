@@ -61,10 +61,12 @@ class AutoUpdater:
             time.sleep(2)
             if root:
                 root.destroy()
-            os.execv(sys.executable, ["python"] + sys.argv)
+            script_path = os.path.abspath(__file__)
+            os.execv(sys.executable, [sys.executable, script_path] + sys.argv[1:])
         except Exception as ex:
             print("Update-Fehler:", ex)
             self.close_app(root)
+
 
     def close_app(self, root=None):
         print("Programm wird wegen Update-Fehler geschlossen.")
