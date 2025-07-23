@@ -7,7 +7,6 @@ import requests
 import sys
 import os
 import time
-import subprocess
 
 load_dotenv()
 
@@ -58,15 +57,15 @@ class AutoUpdater:
             response.raise_for_status()
             with open(__file__, "wb") as f:
                 f.write(response.content)
-            print("Update installiert – Neustart ...")
-            time.sleep(1)  # Gib Windows Zeit, den Schreibvorgang zu beenden
+            print("Update installiert.")
+            # Infofenster für User anzeigen
+            messagebox.showinfo(
+                "Update installiert",
+                "Das Update wurde erfolgreich installiert!\nBitte starte das Programm neu."
+            )
             if root:
                 root.destroy()
-            script_path = os.path.abspath(__file__)
-            script_dir = os.path.dirname(script_path)
-            subprocess.Popen([sys.executable, script_path] + sys.argv[1:], cwd=script_dir)
-            # WICHTIG: Erzwinge harte Beendigung
-            os._exit(0)
+            sys.exit(0)
         except Exception as ex:
             print("Update-Fehler:", ex)
             self.close_app(root)
