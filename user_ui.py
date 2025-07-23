@@ -12,22 +12,59 @@ load_dotenv()
 
 class AutoUpdater:
     class SplashScreen:
-        def __init__(self, text="Suche nach Updates..."):
+        def __init__(self, text="Suche nach Updates...", min_width=360, min_height=130):
             self.root = tk.Tk()
-            self.root.overrideredirect(True)
-            self.root.geometry("320x100+600+300")
-            self.label = tk.Label(self.root, text=text, font=("Arial", 14))
+            self.root.overrideredirect(True)  # Kein Rand, kein X
+            self.root.configure(bg="#252e3e")
+            self.root.wm_attributes("-topmost", 1)
+            self.center_window(min_width, min_height)
+            # Optional: Icon setzen (nur, falls du eine Datei hast)
+            # self.root.iconbitmap("deinicon.ico")
+    
+            # Rahmen-Canvas für einen modernen Look
+            self.frame = tk.Frame(self.root, bg="#252e3e", bd=0)
+            self.frame.pack(expand=True, fill="both")
+            
+            # Optional: Ein rundes Canvas-Logo/Symbol
+            # canvas = tk.Canvas(self.frame, width=48, height=48, bg="#252e3e", highlightthickness=0)
+            # canvas.create_oval(4, 4, 44, 44, fill="#4667ac", outline="")
+            # canvas.pack(pady=(20,8))
+            
+            # Titel/Text
+            self.label = tk.Label(
+                self.frame, 
+                text=text,
+                font=("Segoe UI", 14, "bold"),
+                bg="#252e3e",
+                fg="#eaf1ff",
+                pady=16
+            )
             self.label.pack(expand=True)
+    
+            # Optional: Subtext
+            # self.sub = tk.Label(self.frame, text="Bitte warten ...", font=("Segoe UI", 10), bg="#252e3e", fg="#c6d0e1")
+            # self.sub.pack()
             self.root.update()
-            self.start_time = time.time()
-
+            self.start_time = None  # Kann von außen gesetzt werden
+    
+        def center_window(self, width, height):
+            self.root.update_idletasks()
+            screen_width = self.root.winfo_screenwidth()
+            screen_height = self.root.winfo_screenheight()
+            x = int((screen_width / 2) - (width / 2))
+            y = int((screen_height / 2) - (height / 2))
+            self.root.geometry(f"{width}x{height}+{x}+{y}")
+    
         def close(self, min_seconds=3):
-            # Mindestens min_seconds anzeigen
-            elapsed = time.time() - self.start_time
-            wait_time = max(0, min_seconds - elapsed)
-            if wait_time > 0:
-                self.root.after(int(wait_time * 1000), self.root.destroy)
-                self.root.mainloop()
+            import time
+            if self.start_time is not None:
+                elapsed = time.time() - self.start_time
+                wait_time = max(0, min_seconds - elapsed)
+                if wait_time > 0:
+                    self.root.after(int(wait_time * 1000), self.root.destroy)
+                    self.root.mainloop()
+                else:
+                    self.root.destroy()
             else:
                 self.root.destroy()
 
