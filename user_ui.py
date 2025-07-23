@@ -59,14 +59,14 @@ class AutoUpdater:
             with open(__file__, "wb") as f:
                 f.write(response.content)
             print("Update installiert – Neustart ...")
-            time.sleep(2)
+            time.sleep(1)  # Gib Windows Zeit, den Schreibvorgang zu beenden
             if root:
                 root.destroy()
             script_path = os.path.abspath(__file__)
             script_dir = os.path.dirname(script_path)
-            # Starte neues Python-Prozess explizit im richtigen Verzeichnis
             subprocess.Popen([sys.executable, script_path] + sys.argv[1:], cwd=script_dir)
-            sys.exit(0)  # Beende aktuellen Prozess
+            # WICHTIG: Erzwinge harte Beendigung
+            os._exit(0)
         except Exception as ex:
             print("Update-Fehler:", ex)
             self.close_app(root)
